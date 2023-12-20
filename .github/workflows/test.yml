@@ -1,0 +1,31 @@
+name: test
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+
+  test:
+      name: Test code
+      runs-on: ubuntu-latest
+      timeout-minutes: 10
+      
+      steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+          
+        - name: Set up Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: '3.x'
+
+        - name: Install dependencies
+          run: |
+            pip install --upgrade pip
+          
+        - name: Test with unittest
+          run: |
+            python -m unittest discover -s ./test-cases -p '*_test.py'
